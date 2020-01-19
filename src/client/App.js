@@ -2,7 +2,8 @@ import React, { Component } from "react";
 
 class App extends Component {
     state = {
-        username: ""
+        username: "",
+        greeting: ""
     };
 
     componentDidMount() {
@@ -11,8 +12,14 @@ class App extends Component {
             .then(user => this.setState({ username: user.username }));
     }
 
+    sayHi = () => {
+        fetch("/sayHi")
+            .then(res => res.text())
+            .then(greeting => this.setState({ greeting }));
+    };
+
     render() {
-        const { username } = this.state;
+        const { username, greeting } = this.state;
         return (
             <div>
                 {username ? (
@@ -20,6 +27,10 @@ class App extends Component {
                 ) : (
                     <h1>Loading...</h1>
                 )}
+                <div>
+                    <h1>{greeting}</h1>
+                    <button onClick={this.sayHi}>Say Hi</button>
+                </div>
             </div>
         );
     }
